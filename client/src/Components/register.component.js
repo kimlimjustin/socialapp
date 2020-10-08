@@ -1,0 +1,82 @@
+import React, {useEffect, useState} from "react";
+import "hurl-ui";
+import axios from 'axios';
+import cookie from 'react-cookies';
+
+
+const Register = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmation, setConfirmation] = useState('');
+    const [error, setError] = useState('');
+
+    useEffect(()=> {
+        const token = cookie.load('token')  ;
+        axios.get('http://localhost:5000/users')
+        .then(res => {
+            (res.data).forEach(i => {
+                if(i.token === token) window.location = "/";
+            })
+        })
+    })
+    
+    useEffect(()=>{
+        if(password !== confirmation){
+            setError('Username and confirmation must be same')
+        }else{
+            setError('')
+        }
+    }, [password, confirmation])
+
+    useEffect(()=> {
+        if(username.length < 3 && username.length !== 0){
+            setError('Username length should be more than or equal to three')
+        }else{setError('')}
+    }, [username])
+
+    const register = (e) => {
+        e.preventDefault();
+        if(username.length >=3 && password === confirmation){
+            const randomToken = require('random-token').create('@j1ijq&4u+t(a@8@7wv#)$fb!9ce#3+1azsi#6dc$0^d1g^svt');
+            const token = randomToken(50);
+            const User = {
+                username: username,
+                password: password,
+                token: token
+            }
+            axios.post("http://localhost:5000/users/register", User)
+            .then(res => {
+                cookie.save('token', token, {path: '/'})
+                console.log(res);
+                window.location = "/";
+            })
+        }
+    }
+    return(
+        <div className="container">
+            <form className="margin box box-shadow bg-light text-dark" onSubmit={register}>
+                <h1 className="box-title">Register your account</h1>
+                <div className="form-group">
+                    <h4 className="form-error">{error}</h4>
+                </div>
+                <div className="form-group">
+                    <p className="form-label">Username:</p>
+                    <input className="form-control" type="text" value={username} onChange={({target: {value}}) => setUsername(value)} required></input>
+                </div>
+                <div className="form-group">
+                    <p className="form-label">Password:</p>
+                    <input className="form-control" type="password" value = {password} onChange={({target: {value}}) => setPassword(value)} required></input>
+                </div>
+                <div className="form-group">
+                    <p className="form-label">Password Confirmation:</p>
+                    <input className="form-control" type="password" value = {confirmation} onChange={({target: {value}}) => setConfirmation(value)} required></input>
+                </div>
+                <div className="form-group">
+                    <input className="form-control btn btn-dark" type="submit"></input>
+                </div>
+            </form>
+        </div>
+    )
+}
+
+export default Register;
