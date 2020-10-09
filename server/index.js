@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const mongoose = require("mongoose");
 const cors = require('cors');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -18,11 +19,12 @@ app.use((req, res, next) => {
 	next();
 })
 
+app.use(express.static(path.join(__dirname, "/public/")));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 
 app.use(function (req, res, next) {
-	res.status(404).send("Sorry can't find that!")
+	res.status(404).sendFile(__dirname + "/error/404.html")
 })
 const server = http.createServer(app);
 

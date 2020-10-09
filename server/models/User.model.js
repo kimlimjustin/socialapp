@@ -9,7 +9,7 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
+        unique: true,   
         minlength: 3
     },
     password: {
@@ -23,6 +23,10 @@ const UserSchema = new Schema({
     token: {
         type: String,
         required: true,
+    },
+    profile_picture: {
+        type: Object,
+        required: false
     }
 }, {
     timestamps: true,

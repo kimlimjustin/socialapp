@@ -8,6 +8,7 @@ import Register from "./Components/register.component";
 import Login from "./Components/login.component";
 import Home from "./Components/home.component";
 import Navbar from "./Components/navbar.component";
+import PP from "./Components/profile_picture.component";
 
 const App = () => (
     <Router>
@@ -15,6 +16,7 @@ const App = () => (
         <Route path="/" exact component={Home} />
         <Route path="/register" component = {Register} />
         <Route path="/login" component = {Login} />
+        <Route path="/setting/profile-picture" component = {PP} />
     </Router>
 );
 

@@ -13,4 +13,28 @@
 
 .logo{
     width: 20px;
+    border-radius: 50%;
+}
+
+.profile-picture{
+    width: inherit;
+}
+
+.profile-box{
+    border-radius: 50% !important;
+    width: 200px !important;
+    margin: auto !important;
+}
+
+.profile-box img{
+    border-radius: 50%;
+}
+
+#upload-profile-picture{
+    display: none;
+}
+@media only screen and (max-width: 300px){
+    .profile-box{
+        width: 100px !important;
+    }
 }
