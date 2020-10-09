@@ -12,8 +12,9 @@ router.get('/', (req, res) => {
 router.post('/register',jsonParser, (req, res)=>{
     const username = req.body.username;
     const password = req.body.password;
+    const email = req.body.email;
     const token = req.body.token;
-    const newUser = new User({'username': username, 'password': password, "token":token});
+    const newUser = new User({'username': username, 'password': password, "token":token, "email": email});
     newUser.save()
     .then(()=> res.json('User added!'))
     .then(err => res.status(400).json('Error: '+err));

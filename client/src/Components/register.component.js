@@ -8,6 +8,7 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmation, setConfirmation] = useState('');
+    const [email, setEmail] = useState('');
     const [error, setError] = useState('');
 
     useEffect(()=> {
@@ -42,7 +43,8 @@ const Register = () => {
             const User = {
                 username: username,
                 password: password,
-                token: token
+                token: token,
+                email: email
             }
             axios.post("http://localhost:5000/users/register", User)
             .then(res => {
@@ -62,6 +64,10 @@ const Register = () => {
                 <div className="form-group">
                     <p className="form-label">Username:</p>
                     <input className="form-control" type="text" value={username} onChange={({target: {value}}) => setUsername(value)} required></input>
+                </div>
+                <div className="form-group">
+                    <p className="form-label">Email:</p>
+                    <input className="form-control" type="email" value={email} onChange={({target: {value}}) => setEmail(value)} required></input>
                 </div>
                 <div className="form-group">
                     <p className="form-label">Password:</p>

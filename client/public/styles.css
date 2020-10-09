@@ -3,3 +3,14 @@
     font-family: "Permanent Marker";
     color: red;
 }
+
+.bar{
+    width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
+}
+
+.logo{
+    width: 20px;
+}
