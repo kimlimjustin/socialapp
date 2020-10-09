@@ -49,7 +49,6 @@ const Register = () => {
             axios.post("http://localhost:5000/users/register", User)
             .then(res => {
                 cookie.save('token', token, {path: '/'})
-                console.log(res);
                 window.location = "/";
             })
         }

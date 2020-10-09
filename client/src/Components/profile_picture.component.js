@@ -8,7 +8,6 @@ async function check_token(){
   var logged_in = false
   await axios.get('http://localhost:5000/users')
   .then(res => {
-      console.log(res);
       (res.data).forEach(i=> {
           if(i.token === token){
               logged_in = true
@@ -25,7 +24,16 @@ const PP = () => {
     const [info, setInfo] = useState('');
 
     useEffect(()=> {
-        check_token().then(result => {if(!result) window.location = '/'})
+        check_token().then(result => {
+            if(result){
+                axios.get('http://localhost:5000/users')
+                .then(res => {
+                    (res.data).forEach(i => {
+                        if(i.token === token) setFile("http://localhost:5000/" + i.profile_picture.filename)
+                    })
+                })
+            }else window.location = "/"
+        })
     }, [])
     const changeProfilePicture = (e) => {
         const token = cookie.load('token');
