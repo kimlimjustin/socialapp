@@ -36,6 +36,13 @@
 .nav-item-description{
     display: none;
 }
+
+.link{
+    color: #000;
+    text-decoration: none;
+    opacity: .7;
+}
+.link:hover{opacity: .4;}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;

@@ -77,6 +77,9 @@ const Register = () => {
                     <input className="form-control" type="password" value = {confirmation} onChange={({target: {value}}) => setConfirmation(value)} required></input>
                 </div>
                 <div className="form-group">
+                    <p className="form-label">Already have account? <a className="link" href="/login">Login</a></p>
+                </div>
+                <div className="form-group">
                     <input className="form-control btn btn-dark" type="submit"></input>
                 </div>
             </form>

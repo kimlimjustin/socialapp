@@ -51,6 +51,9 @@ const Login = () => {
                     <input className="form-control" type="password" value = {password} onChange={({target: {value}}) => setPassword(value)} required></input>
                 </div>
                 <div className="form-group">
+                    <p className="form-label">Don't have account yet? <a className="link" href="/register">Register</a></p>
+                </div>
+                <div className="form-group">
                     <input className="form-control btn btn-dark" type="submit"></input>
                 </div>
             </form>
