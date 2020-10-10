@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const router = express.Router();
 const fs = require('fs');
+const sharp = require('sharp');
 
 router.get('/', (req, res) => {
     User.find()
@@ -65,14 +66,19 @@ router.post('/profile_picture', jsonParser, (req, res)=> {
         if(!req.body.token) res.status(403);
         User.findOne({token: req.body.token}, (err, user)=> {
             if(user.profile_picture) {
-                fs.unlink(user.profile_picture.destination + user.profile_picture.filename,  (err)=> console.log(err))
+                fs.unlink(user.profile_picture.destination + user.profile_picture.filename,  (err)=> {if(err)console.log(err)})
             }
             if(err) res.status(400).json("Error: "+err);
-            user.profile_picture = req.file;
-            user.save();
-            
+            const resize = async function(){
+                await sharp(req.file.destination + req.file.filename)
+                .resize(900, 900)
+                .toBuffer((err, buffer) => fs.writeFile(req.file.destination + req.file.filename, buffer, (e) => {}))
+            }
+            resize()
+            .then(result => user.profile_picture = req.file)
+            .then(result => user.save())
+            .then(result => res.json(req.file.filename))
         }).catch(err => res.status(400).json("Error: "+err));
-        res.json(req.file.filename);
     });
 })
 
@@ -86,6 +92,7 @@ router.post('/profile', jsonParser, (req, res)=> {
         user.bio = req.body.bio;
         user.save()
         .then(() => res.json("Profile saved"))
+        .catch(res.status(400).json("Error: "+err))
     }).catch(err => res.status(400).json("Error: "+err));
 })
 
