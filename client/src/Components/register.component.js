@@ -49,7 +49,7 @@ const Register = () => {
                 cookie.save('token', res.data.token, {path: '/'})
                 window.location = "/";
             })
-            .catch((err)=> setError("Username has been taken."));
+            .catch((err)=> setError("Please choose another username."));
         }
     }
     return(

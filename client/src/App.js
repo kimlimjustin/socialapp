@@ -11,6 +11,7 @@ import Navbar from "./Components/navbar.component";
 import PP from "./Components/profile_picture.component";
 import FourZeroFour from "./Components/404.component";
 import Profile from "./Components/profile.component";
+import EditProfile from "./Components/edit_profile.component";
 
 const App = () => (
     <Router>
@@ -20,6 +21,7 @@ const App = () => (
             <Route path="/register" component = {Register} />
             <Route path="/login" component = {Login} />
             <Route path="/setting/profile-picture" component = {PP} />
+            <Route path="/setting/profile" component = {EditProfile} />
             <Route path="/u/:username" component={Profile} />
             <Route path="*" component = {FourZeroFour}/>
         </Switch>

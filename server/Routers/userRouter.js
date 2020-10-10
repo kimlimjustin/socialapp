@@ -71,11 +71,22 @@ router.post('/profile_picture', jsonParser, (req, res)=> {
             user.profile_picture = req.file;
             user.save();
             
-        }).catch(err => res.status(400).json("Error: "+arr));
+        }).catch(err => res.status(400).json("Error: "+err));
         res.json(req.file.filename);
     });
+})
 
-    
+router.post('/profile', jsonParser, (req, res)=> {
+    User.findOne({token: req.body.token}, (err, user)=> {
+        if(err) res.status(400).json("Error: "+err);
+        user.username = req.body.username;
+        user.email = req.body.email;
+        user.name = req.body.name;
+        user.website = req.body.website;
+        user.bio = req.body.bio;
+        user.save()
+        .then(() => res.json("Profile saved"))
+    }).catch(err => res.status(400).json("Error: "+err));
 })
 
 module.exports = router;

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState , useEffect} from "react";
 import profile from "../Icons/profile.png";
 import cookie from 'react-cookies';
+import {Link} from "react-router-dom";
 
 const token = cookie.load('token');
 async function check_token(){
@@ -69,6 +70,7 @@ const PP = () => {
                     <center><p>Click the picture above to change your profile picture</p></center>
                 </label>
                 <input id="upload-profile-picture" type="file" accept="image/*" onChange={changeProfilePicture}></input>
+                <Link to="/"><button className="btn btn-light form-control">Go to Home Page</button></Link>
             </div>
         </div>
     )

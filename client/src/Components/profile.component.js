@@ -18,7 +18,7 @@ const user_available = async (username) => {
 const Profile = (props) => {
     const [username, setUsername] = useState('');
     //const [userInfo, setInfo] = useState({});
-    const [available, setAvailable] = useState(true);
+    const [available, setAvailable] = useState(false);
     const [ProfilePicture, setProfilePicture] = useState(ProfilePicturePNG);
     const [isOwner, SetIsOwner] = useState(false);
 
@@ -32,7 +32,7 @@ const Profile = (props) => {
                 (res.data).forEach((i)=> {
                     if(i.username.toLowerCase() === username){ 
                         const token = cookie.load('token');
-                        setProfilePicture("http://localhost:5000/"+i.profile_picture.filename)
+                        if(i.profile_picture) setProfilePicture("http://localhost:5000/"+i.profile_picture.filename);
                         if(i.token === token) SetIsOwner(true);
                     }
                 })
@@ -49,7 +49,7 @@ const Profile = (props) => {
                     <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
                 </div>
                 <div className="profile-info">
-                    <h2 className="box-title username-heading">{username}</h2>
+                    <h2 className="profile-heading">{username} {isOwner?<NavLink to="/setting/profile/"><button className="btn btn-dark">Edit Profile</button></NavLink>: null}</h2>
                 </div>
             </div>
             }

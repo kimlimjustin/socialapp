@@ -10,7 +10,8 @@ const UserSchema = new Schema({
         required: true,
         trim: true,
         unique: true,   
-        minlength: 3
+        minlength: 3,
+        maxlength: 30
     },
     password: {
         type: String,
@@ -27,6 +28,21 @@ const UserSchema = new Schema({
     profile_picture: {
         type: Object,
         required: false
+    },
+    name: {
+        type: String,
+        required: false,
+        maxlength: 30
+    },
+    bio: {
+        type: String,
+        required: false,
+        maxlength: 500
+    },
+    website: {
+        type: String,
+        required: false,
+        maxlength: 40
     }
 }, {
     timestamps: true,
