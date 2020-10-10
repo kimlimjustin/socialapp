@@ -66,7 +66,7 @@ const PP = () => {
                         ?<img src={profile} alt="Profile Logo" className="profile-picture" />
                         :<img src={file} alt="Profile Logo" className="profile-picture" /> }
                     </div>
-                    <center><div className="btn btn-light margin">Change Profile Picture</div></center>
+                    <center><p>Click the picture above to change your profile picture</p></center>
                 </label>
                 <input id="upload-profile-picture" type="file" accept="image/*" onChange={changeProfilePicture}></input>
             </div>

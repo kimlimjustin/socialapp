@@ -14,14 +14,15 @@ router.get('/', (req, res) => {
 })
 
 router.post('/register',jsonParser, (req, res)=>{
+    const randomToken = require('random-token').create('@j1ijq&4u+t(a@8@7wv#)$fb!9ce#3+1azsi#6dc$0^d1g^svt');
+    const token = randomToken(50);
     const username = req.body.username.toLowerCase();
     const password = req.body.password;
     const email = req.body.email;
-    const token = req.body.token;
     const newUser = new User({'username': username, 'password': password, "token":token, "email": email});
     newUser.save()
-    .then(()=> res.json('User added!'))
-    .then(err => res.status(400).json('Error: '+err));
+    .then(()=> res.json({"message": "User added!", "token":token}))
+    .catch(()=> res.status(400).json("The username has been taken"))
 })
 
 router.post('/login', jsonParser, (req, res)=> {

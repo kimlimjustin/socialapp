@@ -18,6 +18,7 @@
     "mongoose": "^5.10.8",
     "multer": "^1.4.2",
     "nodemon": "^2.0.4",
+    "random-token": "0.0.8",
     "socket.io": "^2.3.0"
   }
 }

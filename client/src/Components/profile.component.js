@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProfilePicturePNG from "../Icons/profile.png"
 import cookie from "react-cookies";
 
@@ -46,7 +46,7 @@ const Profile = (props) => {
             {!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
             <div className="row">
                 <div className="profile-pp">
-                    <img src={ProfilePicture} alt="Profile" className="profile-picture-img"/>
+                    <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
                 </div>
                 <div className="profile-info">
                     <h2 className="box-title username-heading">{username}</h2>

@@ -38,19 +38,18 @@ const Register = () => {
     const register = (e) => {
         e.preventDefault();
         if(username.length >=3 && password === confirmation){
-            const randomToken = require('random-token').create('@j1ijq&4u+t(a@8@7wv#)$fb!9ce#3+1azsi#6dc$0^d1g^svt');
-            const token = randomToken(50);
             const User = {
                 username: username,
                 password: password,
-                token: token,
                 email: email
             }
             axios.post("http://localhost:5000/users/register", User)
             .then(res => {
-                cookie.save('token', token, {path: '/'})
+                console.log(res);
+                cookie.save('token', res.data.token, {path: '/'})
                 window.location = "/";
             })
+            .catch((err)=> setError("Username has been taken."));
         }
     }
     return(
