@@ -28,6 +28,7 @@ body{cursor: pointer;}
 }
 
 .profile-box img, .profile-picture-img{
+    width: 100%;
     border-radius: 50%;
 }
 
@@ -45,12 +46,14 @@ body{cursor: pointer;}
 }
 
 .profile-pp{
-    width: 30%;
+    margin: 20px;
+    width: calc(30% - 40px );
     float: left;
 }
 .profile-info{
-    width: 70%;
+    width: calc(70% - 40px );
     float: left;
+    padding: 20px;
 }
 .profile-pp img{width: 100%;}
 
@@ -64,6 +67,7 @@ body{cursor: pointer;}
     padding: 2px 5px;
 }
 
+
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;
@@ -73,4 +77,8 @@ body{cursor: pointer;}
 @media only screen and (max-width: 600px){
     .nav-item-description{display: block;}
     .logo{display: none;}
+    .profile-pp{
+        margin: 0px;
+        width: 30%;
+    }
 }

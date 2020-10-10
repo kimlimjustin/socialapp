@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import ProfilePicturePNG from "../Icons/profile.png"
 import cookie from "react-cookies";
+import Linkify from "react-linkify";
 
 const user_available = async (username) => {
     var available = false
@@ -17,7 +18,7 @@ const user_available = async (username) => {
 
 const Profile = (props) => {
     const [username, setUsername] = useState('');
-    //const [userInfo, setInfo] = useState({});
+    const [userInfo, setInfo] = useState({});
     const [available, setAvailable] = useState(false);
     const [ProfilePicture, setProfilePicture] = useState(ProfilePicturePNG);
     const [isOwner, SetIsOwner] = useState(false);
@@ -30,13 +31,14 @@ const Profile = (props) => {
             Axios.get("http://localhost:5000/users")
             .then(res => {
                 (res.data).forEach((i)=> {
-                    if(i.username.toLowerCase() === username){ 
+                    if(i.username.toLowerCase() === username){
                         const token = cookie.load('token');
                         if(i.profile_picture) setProfilePicture("http://localhost:5000/"+i.profile_picture.filename);
                         if(i.token === token) SetIsOwner(true);
+                        document.title = i.name
+                        setInfo(i);
                     }
                 })
-                //setInfo(res.data[0]);
             })
         }
     }, [props.match.params.username, username, available])
@@ -44,13 +46,21 @@ const Profile = (props) => {
     return(
         <div className="container margin">
             {!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
-            <div className="row">
-                <div className="profile-pp">
-                    <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
+            <div>
+                <div className="row">
+                    <div className="profile-pp">
+                        <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
+                    </div>
+                    <div className="profile-info">
+                        <h2 className="profile-heading box-title">{username} {isOwner?<NavLink to="/setting/profile/"><button className="btn btn-dark">Edit Profile</button></NavLink>: null}</h2>
+                    </div>
+                    <div className="margin">
+                        <h3>{userInfo.name}</h3>
+                        <Linkify><p style={{whiteSpace: "pre-wrap"}}>{userInfo.bio}</p></Linkify>
+                        <Linkify><span>{userInfo.website}</span></Linkify>
+                    </div>
                 </div>
-                <div className="profile-info">
-                    <h2 className="profile-heading">{username} {isOwner?<NavLink to="/setting/profile/"><button className="btn btn-dark">Edit Profile</button></NavLink>: null}</h2>
-                </div>
+                <hr />
             </div>
             }
         </div>

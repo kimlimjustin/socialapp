@@ -23,6 +23,7 @@ const EditProfile = () => {
     const [bio, setBio] = useState('');
     const [website, setWebsite] = useState('');
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
     
     useEffect(()=> {
         logged_in().then(result => {
@@ -47,12 +48,14 @@ const EditProfile = () => {
         }
         Axios.post("http://localhost:5000/users/profile", profile)
         .then(res => setMessage(res.data))
+        .catch(() => setError("Something went wrong. Please try again"))
     }
 
     return(
         <form className="container margin box box-shadow" onSubmit={Submit}>
             <h1 className="box-title">Your Profile:</h1>
             {message? <h3 className="form-label text-success">{message}</h3>: null}
+            <h3 className="form-error">{error}</h3>
             <div className="form-group">
                 <p className="form-label">Username:</p>
                 <input type="text" className="form-control" value={username} onChange={({target: {value}}) => setUsername(value.toLowerCase())} required />

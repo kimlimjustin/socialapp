@@ -91,8 +91,7 @@ router.post('/profile', jsonParser, (req, res)=> {
         user.website = req.body.website;
         user.bio = req.body.bio;
         user.save()
-        .then(() => res.json("Profile saved"))
-        .catch(res.status(400).json("Error: "+err))
+        res.json("Profile saved")
     }).catch(err => res.status(400).json("Error: "+err));
 })
 
