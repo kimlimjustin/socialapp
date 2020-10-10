@@ -62,7 +62,7 @@ const Register = () => {
                 </div>
                 <div className="form-group">
                     <p className="form-label">Username:</p>
-                    <input className="form-control" type="text" value={username} onChange={({target: {value}}) => setUsername(value)} required></input>
+                    <input className="form-control" type="text" value={username} onChange={({target: {value}}) => setUsername(value.toLowerCase())} required></input>
                 </div>
                 <div className="form-group">
                     <p className="form-label">Email:</p>

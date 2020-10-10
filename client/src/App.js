@@ -10,16 +10,18 @@ import Home from "./Components/home.component";
 import Navbar from "./Components/navbar.component";
 import PP from "./Components/profile_picture.component";
 import FourZeroFour from "./Components/404.component";
+import Profile from "./Components/profile.component";
 
 const App = () => (
     <Router>
         <Navbar />
         <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/register" component = {Register} />
-        <Route path="/login" component = {Login} />
-        <Route path="/setting/profile-picture" component = {PP} />
-        <Route path="*" component = {FourZeroFour}/>
+            <Route exact path="/" component={Home} />
+            <Route path="/register" component = {Register} />
+            <Route path="/login" component = {Login} />
+            <Route path="/setting/profile-picture" component = {PP} />
+            <Route path="/u/:username" component={Profile} />
+            <Route path="*" component = {FourZeroFour}/>
         </Switch>
     </Router>
 );

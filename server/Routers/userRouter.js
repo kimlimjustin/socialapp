@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/register',jsonParser, (req, res)=>{
-    const username = req.body.username;
+    const username = req.body.username.toLowerCase();
     const password = req.body.password;
     const email = req.body.email;
     const token = req.body.token;
@@ -25,7 +25,7 @@ router.post('/register',jsonParser, (req, res)=>{
 })
 
 router.post('/login', jsonParser, (req, res)=> {
-    const username = req.body.username;
+    const username = req.body.username.toLowerCase();
     const password = req.body.password;
     User.findOne({username: username}, (err, user)=>{
         if(err){

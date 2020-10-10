@@ -26,7 +26,7 @@
     margin: auto !important;
 }
 
-.profile-box img{
+.profile-box img, .profile-picture-img{
     border-radius: 50%;
 }
 
@@ -42,7 +42,20 @@
     text-decoration: none;
     opacity: .7;
 }
-.link:hover{opacity: .4;}
+
+.profile-pp{
+    width: 30%;
+    float: left;
+}
+.profile-info{
+    width: 70%;
+    float: left;
+}
+.profile-pp img{width: 100%;}
+
+.nav-effect{box-shadow: 0 2px 30px -2px rgba(0,0,0,.2);}
+
+.username-heading{margin: 5px !important}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;

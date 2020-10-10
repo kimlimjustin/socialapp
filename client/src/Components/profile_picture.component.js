@@ -29,7 +29,9 @@ const PP = () => {
                 axios.get('http://localhost:5000/users')
                 .then(res => {
                     (res.data).forEach(i => {
-                        if(i.token === token) setFile("http://localhost:5000/" + i.profile_picture.filename)
+                        if(i.token === token){
+                            if(i.profile_picture)   setFile("http://localhost:5000/" + i.profile_picture.filename)
+                        }
                     })
                 })
             }else window.location = "/"

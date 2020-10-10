@@ -11,12 +11,14 @@ const Navbar = () => {
         axios.get('http://localhost:5000/users')
         .then(res => {
             (res.data).forEach(i => {
-                if(i.token === token) setPP("http://localhost:5000/" + i.profile_picture.filename)
+                if(i.token === token){
+                    if(i.profile_picture) setPP("http://localhost:5000/" + i.profile_picture.filename)
+                } 
             })
         })
     })
     return(
-        <nav className="navbar bg-light text-dark">
+        <nav className="navbar nav-effect bg-white text-dark">
             <div className="container">
                 <Link to= "/"  className="nav-logo">SocialApp</Link>
                 <span id="nav-icon" className="nav-icon" data-target ="nav-list">&#x2630;</span>
