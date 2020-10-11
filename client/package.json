@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "cors": "^2.8.5",
-    "hurl-ui": "^0.2.0",
+    "hurl-ui": "^0.2.1",
     "query-string": "^6.13.5",
     "random-token": "0.0.8",
     "react": "^16.13.1",

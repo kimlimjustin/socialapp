@@ -15,13 +15,40 @@ const user_available = async (username) => {
     })
     return available
 }
+const token = cookie.load('token');
+const logged_in = async () => {
+    let is_logged_in = false
+    if(token === null) is_logged_in = false;
+    await Axios.get("http://localhost:5000/users")
+    .then(res => {
+        (res.data).forEach((i)=> {
+            if(i.token === token) is_logged_in = i
+        })
+    })
+    return is_logged_in
+}
+
+const check_followed = (follower, id) => {
+    let if_followed = false;
+    follower.forEach((i)=> {
+        if(i.follower === id){
+            if_followed = true;
+        }
+    })
+    return if_followed;
+}
 
 const Profile = (props) => {
     const [username, setUsername] = useState('');
+    const [userID, setID] = useState('');
     const [userInfo, setInfo] = useState({});
     const [available, setAvailable] = useState(false);
     const [ProfilePicture, setProfilePicture] = useState(ProfilePicturePNG);
     const [isOwner, SetIsOwner] = useState(false);
+    const [follower, setFollower] = useState([]);
+    const [following, setFollowing] = useState([]);
+    const [followed, setFollowed] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(false);
 
     useEffect(()=> {
         if(!props.match.params.username) window.location = "/";
@@ -35,19 +62,47 @@ const Profile = (props) => {
                         const token = cookie.load('token');
                         if(i.profile_picture) setProfilePicture("http://localhost:5000/"+i.profile_picture.filename);
                         if(i.token === token) SetIsOwner(true);
-                        document.title = i.name
+                        document.title = i.name;
+                        setID(i._id);
                         setInfo(i);
+                        Axios.get("http://localhost:5000/follow/get", {params: {user: i._id}})
+                        .then(res => {
+                            setFollower(res.data.follower);
+                            setFollowing(res.data.following);
+                        })
                     }
                 })
             })
         }
-    }, [props.match.params.username, username, available])
+    }, [props.match.params.username, username, available, followed])
+
+    useEffect(() => {
+        logged_in().then(result => setLoggedIn(result))
+    }, [])
+
+    useEffect(()=> {
+        if(check_followed(follower, isLoggedIn._id)) setFollowed(true)
+        else setFollowed(false)
+    }, [follower, isLoggedIn])
     
+    const Follow = () => {
+        logged_in().then(result => {if(!result) return null; })
+        Axios.post("http://localhost:5000/follow/add", {following: userID, follower: isLoggedIn._id, token})
+        .then(() => setFollowed(true))
+        .catch(err => console.log(err))
+    }
+
+    const Unfollow = () => {
+        logged_in().then(result => {if(!result) return null;})
+        Axios.post("http://localhost:5000/follow/delete", {following: userID, follower: isLoggedIn._id, token})
+        .then(()=> setFollowed(false))
+        .catch(err => console.log(err))
+    }
     return(
         <div className="container margin">
             {!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
             <div>
-                <div className="row">
+                <div className="row profile">
                     <div className="profile-pp">
                         <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
                     </div>
@@ -58,9 +113,33 @@ const Profile = (props) => {
                         <h3>{userInfo.name}</h3>
                         <Linkify><p style={{whiteSpace: "pre-wrap"}}>{userInfo.bio}</p></Linkify>
                         <Linkify><span>{userInfo.website}</span></Linkify>
+                        {isLoggedIn
+                        ?[
+                            (isOwner
+                            ?null
+                            :   [
+                                    (followed
+                                    ?<button className="form-control btn btn-dark" onClick={Unfollow} key={isLoggedIn._id}>Unfollow</button>
+                                    :<button className="form-control btn btn-dark" onClick={Follow} key={isLoggedIn._id}>Follow</button>
+                                    )
+                                ]
+                            )
+                        ]
+                        :null
+                        }
                     </div>
                 </div>
-                <hr />
+                <div className="activity-info profile">
+                    <div className="profile-bar">
+                        <h5>Followers</h5>
+                        <span>{follower.length}</span>
+                    </div>
+                    <div className="profile-bar">
+                        <h5>Following</h5>
+                        <span>{following.length}</span>
+                    </div>
+                </div>
+                
             </div>
             }
         </div>

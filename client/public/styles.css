@@ -4,6 +4,14 @@ body{cursor: pointer;}
     font-family: "Permanent Marker";
     color: red;
 }
+.profile{
+    border-bottom: 1px solid #d0cfcf;
+}
+
+.activity-info{
+    width: 100%;
+    float: left;
+}
 
 .bar{
     width: 35px;
@@ -39,12 +47,6 @@ body{cursor: pointer;}
     display: none;
 }
 
-.link{
-    color: #000;
-    text-decoration: none;
-    opacity: .7;
-}
-
 .profile-pp{
     margin: 20px;
     width: calc(30% - 40px );
@@ -67,7 +69,11 @@ body{cursor: pointer;}
     padding: 2px 5px;
 }
 
-
+.profile-bar{
+    width: 50% ; 
+    float: left;
+    text-align: center;
+}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;
