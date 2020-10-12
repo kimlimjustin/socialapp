@@ -110,7 +110,7 @@ const Profile = (props) => {
     return(
         <div className="container margin">
             {loading? <h1>Loading...</h1>
-            :[(!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
+            :[(!available? <h1 className="box-title" key={isLoggedIn._id}>Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
             <div key={isLoggedIn._id}>
                 <div className="row profile">
                     <div className="profile-pp">

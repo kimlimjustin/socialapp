@@ -31,7 +31,7 @@ const Login = () => {
             window.location = "/";
         })
         .catch(err => {
-            if(err.response.status !== 200) setError("Your username and/or password doesn't match")
+            if(err) setError("Your username and/or password doesn't match")
         })
     }
 

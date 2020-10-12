@@ -53,7 +53,7 @@ router.post('/profile_picture', jsonParser, (req, res)=> {
     const storage = multer.diskStorage({
         destination: "./public/",
         filename: function(req, file, cb){
-           cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+           cb(null,"PROFILE-PICTURE-" + Date.now() + path.extname(file.originalname));
         }
     });
 

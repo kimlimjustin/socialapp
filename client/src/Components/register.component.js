@@ -23,7 +23,7 @@ const Register = () => {
     
     useEffect(()=>{
         if(password !== confirmation){
-            setError('Username and confirmation must be same')
+            setError('Password and confirmation must be same')
         }else{
             setError('')
         }
