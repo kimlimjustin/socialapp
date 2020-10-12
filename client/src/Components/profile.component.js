@@ -38,6 +38,10 @@ const check_followed = (follower, id) => {
     return if_followed;
 }
 
+const waitLoading = () => {
+    return new Promise((resolve)=> setTimeout(()=> resolve(), 1500))
+}
+
 const Profile = (props) => {
     const [username, setUsername] = useState('');
     const [userID, setID] = useState('');
@@ -49,6 +53,7 @@ const Profile = (props) => {
     const [following, setFollowing] = useState([]);
     const [followed, setFollowed] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=> {
         if(!props.match.params.username) window.location = "/";
@@ -84,6 +89,10 @@ const Profile = (props) => {
         if(check_followed(follower, isLoggedIn._id)) setFollowed(true)
         else setFollowed(false)
     }, [follower, isLoggedIn])
+
+    useEffect(()=> {
+        waitLoading().then(() => setLoading(false))
+    }, [])
     
     const Follow = () => {
         logged_in().then(result => {if(!result) return null; })
@@ -100,8 +109,9 @@ const Profile = (props) => {
     }
     return(
         <div className="container margin">
-            {!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
-            <div>
+            {loading? <h1>Loading...</h1>
+            :[(!available? <h1 className="box-title">Sorry, this page is unavailable, please<Link to="/" className="link"> go back</Link></h1>:
+            <div key={isLoggedIn._id}>
                 <div className="row profile">
                     <div className="profile-pp">
                         <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
@@ -141,7 +151,7 @@ const Profile = (props) => {
                 </div>
                 
             </div>
-            }
+            )]}
         </div>
     )
 }

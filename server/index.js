@@ -11,10 +11,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const indexRouter = require('./Routers/indexRouter');
 const userRouter = require('./Routers/userRouter');
+const followRouter = require('./Routers/followRouter');
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", 'http://localhost:3000')
-	res.setHeader("Access-Control-Allow-Methods", 'GET, POST')
+	res.setHeader("Access-Control-Allow-Methods", 'GET, POST, DELETE')
 	res.setHeader("Access-Control-Allow-Headers", 'Content-Type', "Authorization")
 	next();
 })
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "/public/")));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
+app.use('/follow', followRouter);
 
 app.use(function (req, res, next) {
 	res.status(404).sendFile(__dirname + "/error/404.html")
