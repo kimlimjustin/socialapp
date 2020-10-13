@@ -6,6 +6,7 @@ import cookie from "react-cookies";
 const Post = (params) => {
     const [postInfo, setPostInfo] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
+    const [username, setUsername] = useState('');
 
     useEffect(()=> {
         Axios.get(`http://localhost:5000/posts/${params.match.params.id}`)
@@ -20,12 +21,19 @@ const Post = (params) => {
         .then(res => {
             const token = cookie.load('token');
             (res.data).forEach((i) => {
-                if(i.token === token){
-                    if(postInfo)if(i._id === postInfo.user) setIsOwner(true);
-                }
+                if(i.token === token)if(postInfo)if(i._id === postInfo.user){setIsOwner(true); setUsername(i.username.toLowerCase())};
             })
         })
     }, [postInfo])
+
+    const DeletePost = () => {
+        if(window.confirm("Are you sure?")){
+            const token = cookie.load('token');
+            Axios.post(`http://localhost:5000/posts/delete/${params.match.params.id}`, {token})
+            .then(()=> window.location = `/u/${username}`)
+            .catch(err => console.log(err));
+        }
+    }
     return(
         <div className="container">
             {postInfo
@@ -49,7 +57,10 @@ const Post = (params) => {
                 :null
                 }
                 {isOwner ?
-                <h3><NavLink to={`/post/${params.match.params.id}/edit`} className="link">Edit Post</NavLink></h3>
+                <div>
+                    <h3><NavLink to={`/post/${params.match.params.id}/edit`} className="link">Edit Post</NavLink></h3>
+                    <h3 className="link text-danger" onClick={DeletePost}>Delete Post</h3>
+                </div>
                 :null
                 }
             </div>

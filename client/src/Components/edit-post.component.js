@@ -106,7 +106,7 @@ const EditPost = (params) => {
                 </div>
             </form>
             :null)]
-            :<h1 className="box-title form-error">Permission denied</h1>}
+            :<h1 className="box-title">Loading...</h1>}
         </div>
     )
 
