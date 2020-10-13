@@ -1,9 +1,11 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import {NavLink} from "react-router-dom";
+import cookie from "react-cookies";
 
 const Post = (params) => {
     const [postInfo, setPostInfo] = useState(null);
+    const [isOwner, setIsOwner] = useState(false);
 
     useEffect(()=> {
         Axios.get(`http://localhost:5000/posts/${params.match.params.id}`)
@@ -11,6 +13,19 @@ const Post = (params) => {
             setPostInfo(res.data);
         })
     }, [params.match.params.id])
+
+    
+    useEffect(()=> {
+        Axios.get("http://localhost:5000/users")
+        .then(res => {
+            const token = cookie.load('token');
+            (res.data).forEach((i) => {
+                if(i.token === token){
+                    if(postInfo)if(i._id === postInfo.user) setIsOwner(true);
+                }
+            })
+        })
+    }, [postInfo])
     return(
         <div className="container">
             {postInfo
@@ -31,6 +46,10 @@ const Post = (params) => {
                     <p className="form-label">Hashtags:</p>
                     {postInfo.hashtags.map((hashtag) => (<span key={hashtag}>#{hashtag} </span>) )}
                 </div>
+                :null
+                }
+                {isOwner ?
+                <h3><NavLink to={`/post/${params.match.params.id}/edit`} className="link">Edit Post</NavLink></h3>
                 :null
                 }
             </div>
