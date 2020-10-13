@@ -74,6 +74,30 @@ body{cursor: pointer;}
     float: left;
     text-align: center;
 }
+
+.posts{
+    display: grid;
+    padding: 10px;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-columns: auto auto auto;
+}
+
+.post{
+    height: 100%;
+    max-height: 300px;
+}
+
+.post img{height: 100%;}
+.post-section{
+    border-bottom: 1px solid #b9b4b4;
+    border-top: 1px solid #b9b4b4;
+    padding: 5px 0;
+}
+
+.box-text{
+    white-space: pre-wrap;
+}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;

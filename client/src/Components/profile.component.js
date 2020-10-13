@@ -156,7 +156,11 @@ const Profile = (props) => {
                         <span>{following.length}</span>
                     </div>
                 </div>
-                
+                <div className="row posts">
+                    {posts.map((post) => (<div key={post._id} className="post"><NavLink to = {`/post/${post._id}`}>
+                    <img src={`http://localhost:5000/${post.image.filename}`} alt={post.description} className="box-image" />
+                    </NavLink></div>))}
+                </div>
             </div>
             )]}
         </div>
