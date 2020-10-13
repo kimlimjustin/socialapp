@@ -26,34 +26,16 @@ router.post("/create", jsonParser,(req, res)=> {
                 if(err) res.status(400).json("Error: "+err);
                 else if(!user) res.status(403).json("User not found")
                 else{
-                    const newPost = new Post({user: req.body.user, description: req.body.description, hashtags: req.body.hashtags, tags: req.body.tags, image: req.file})
+                    const hashtags = req.body.hashtags.split(",");
+                    const tags = req.body.tags.split(",")
+                    const newPost = new Post({user: req.body.user, description: req.body.description, hashtags, tags, image: req.file})
                     newPost.save()
-                    .then(() => res.json("Post created."))
+                    .then(() => res.json({message:"Post created.", id: newPost._id}))
                     .catch(err => res.status(400).json("Error: "+err))
                 }
             });
         }
     })
-
-    /*const description = req.body.description;
-    const user = req.body.user;
-    const hashtags = req.body.hashtags;
-    const tags = req.body.tags;
-    const token = req.body.token;
-    const image = req.body.image;
-    if(!token) res.status(403).json("Permission denied.")
-    else{
-        User.findOne({_id: user, token}, (err, user) => {
-            if(err) res.status(400).json("Error: "+err);
-            else if(!user) res.status(403).json("User not found")
-            else{
-                const newPost = new Post({user, description, hashtags, tags, image})
-                newPost.save()
-                .then(() => res.json("Post created."))
-                .catch(err => res.status(400).json("Error: "+err))
-            }
-        })
-    }*/
 })
 
 router.get("/get/:user", (req, res)=> {

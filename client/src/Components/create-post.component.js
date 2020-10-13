@@ -58,7 +58,13 @@ const CreatePost = () => {
     const Submit = (e) => {
         e.preventDefault();
         const tagList = tags.split(',');
+        for(let i = 0; i< tagList.length; i++){
+            if(String(tagList[i])[0] === " "){ tagList[i] = String(tagList[i]).substring(1)}
+        }
         const hastagList = hashtags.split(',');
+        for(let i = 0; i< hastagList.length; i++){
+            if(String(hastagList[i])[0] === " "){ hastagList[i] = String(hastagList[i]).substring(1)}
+        }
         const Post = new FormData();
         Post.append('image', image);
         Post.append('user', userInfo._id);
@@ -72,7 +78,8 @@ const CreatePost = () => {
             }
         };
         Axios.post("http://localhost:5000/posts/create", Post, config)
-        .then(res => console.log(res))
+        .then(res => window.location = res.data.id)
+        .catch(err => console.log(err))
     }
     return(
         <div className="container">
@@ -85,7 +92,7 @@ const CreatePost = () => {
                 </div>
                 <div className="form-group">
                     <p className="form-label">Description:</p>
-                    <textarea rows="10" className="form-control" maxLength="5000" value={description} onChange= {({target: {value}}) => setDescription(value)}></textarea>
+                    <textarea rows="10" className="form-control" maxLength="5000" value={description} onChange= {({target: {value}}) => setDescription(value)} required></textarea>
                 </div>
                 <div className="form-group">
                     <p className="form-label">Tags:</p>

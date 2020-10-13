@@ -51,6 +51,7 @@ const Profile = (props) => {
     const [isOwner, SetIsOwner] = useState(false);
     const [follower, setFollower] = useState([]);
     const [following, setFollowing] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [followed, setFollowed] = useState(false);
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -75,6 +76,8 @@ const Profile = (props) => {
                             setFollower(res.data.follower);
                             setFollowing(res.data.following);
                         })
+                        Axios.get(`http://localhost:5000/posts/get/${i._id}`)
+                        .then(res => setPosts(res.data))
                     }
                 })
             })
@@ -140,6 +143,10 @@ const Profile = (props) => {
                     </div>
                 </div>
                 <div className="activity-info profile">
+                    <div className="profile-bar">
+                        <h5>Posts</h5>
+                        <span>{posts.length}</span>
+                    </div>
                     <div className="profile-bar">
                         <h5>Followers</h5>
                         <span>{follower.length}</span>
