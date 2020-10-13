@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import {NavLink} from "react-router-dom";
 import cookie from "react-cookies";
+import moment from "moment";
 
 const Post = (params) => {
     const [postInfo, setPostInfo] = useState(null);
@@ -56,6 +57,10 @@ const Post = (params) => {
                 </div>
                 :null
                 }
+                <p className="box-text">Posted {moment(postInfo.createdAt).fromNow()} by <NavLink className="link" to={`/u/${username}`}>{username}</NavLink></p>
+                {postInfo.createdAt !== postInfo.updatedAt ?
+                <p className="box-text">Updated {moment(postInfo.updatedAt).fromNow()}</p>
+                : null}
                 {isOwner ?
                 <div>
                     <h3><NavLink to={`/post/${params.match.params.id}/edit`} className="link">Edit Post</NavLink></h3>

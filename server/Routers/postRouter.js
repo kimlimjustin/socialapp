@@ -4,8 +4,9 @@ const Post = require("../models/Post.model");
 const User = require("../models/User.model");
 const multer = require('multer');
 const path = require('path');
-const bodyParser = require('body-parser')
-const jsonParser = bodyParser.json()
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const fs = require('fs');
 
 router.post("/create", jsonParser,(req, res)=> {
     const storage = multer.diskStorage({
@@ -39,7 +40,7 @@ router.post("/create", jsonParser,(req, res)=> {
 })
 
 router.get("/get/:user", (req, res)=> {
-    Post.find({user: req.params.user})
+    Post.find({user: req.params.user}).sort({_id: -1})
     .then(result => res.json(result))
     .catch(err => res.status(400).json("Error: "+err));
 })
@@ -83,6 +84,9 @@ router.post("/delete/:id", jsonParser, (req, res)=> {
                 if(!user) res.status(403).json("Permission denied.")
                 else if(user.token === req.body.token) res.status(403).json("Permission denied.")
                 else{
+                    if(post.image){
+                        fs.unlink(post.image.destination + post.image.filename, (err)=> {if(err) console.log(err)})
+                    }
                     post.delete();
                     res.json("Post deleted.");
                 }
