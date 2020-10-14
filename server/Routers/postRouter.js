@@ -46,6 +46,12 @@ router.get("/get/:user", (req, res)=> {
     .catch(err => res.status(400).json("Error: "+err));
 })
 
+router.get("/get/:user/all", (req, res) => {
+    Post.find({user: req.params.user})
+    .then(result => res.json(result))
+    .catch(err => res.status(400).json("Error: "+err));
+})
+
 router.get("/:id", (req, res)=> {
     Post.findById(req.params.id)
     .then(post => res.json(post))

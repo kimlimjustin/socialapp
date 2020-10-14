@@ -77,7 +77,7 @@ const Profile = (props) => {
                             setFollowing(res.data.following);
                             setFollower(res.data.follower);
                         })
-                        Axios.get(`http://localhost:5000/posts/get/${i._id}`)
+                        Axios.get(`http://localhost:5000/posts/get/${i._id}/all`)
                         .then(res => setPosts(res.data))
                     }
                 })
