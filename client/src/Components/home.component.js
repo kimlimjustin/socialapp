@@ -39,15 +39,21 @@ const Home = () => {
                     Axios.get(`http://localhost:5000/posts/get/${following.following}?skip=${skip}`)
                     .then(res => {
                         (res.data).forEach(post => {
-                            setPosts(posts => [...posts, post])
+                            Axios.get('http://localhost:5000/users/')
+                            .then(users => {
+                                (users.data).forEach((user) => {
+                                    if(user._id === post.user){
+                                        post.creator = user.username
+                                        setPosts(posts => [...posts, post])
+                                    }
+                                })
+                            })
                         })
                     })
                 })
             }
         })
     }, [userInfo, skip])
-    
-    
     
     useEffect(() => {
         const handleScroll = (e) => {
@@ -57,8 +63,7 @@ const Home = () => {
         }
         window.addEventListener('scroll', handleScroll, {passive: true})
     }, [skip, posts])
-        
-
+    
     const GeneratePost = ({post}) => {
         return <div key={post._id} className="box box-shadow margin-top-bottom">
             <NavLink to={`/post/${post._id}`}><img src = {`http://localhost:5000/${post.image.filename}`} alt = {post.description} className="box-image" /></NavLink>
@@ -78,7 +83,7 @@ const Home = () => {
             </div>
             :null
             }
-            <p className="box-text">Posted {moment(post.createdAt).fromNow()}</p>
+            <p className="box-text">Posted {moment(post.createdAt).fromNow()} by <NavLink to = {`/u/${post.creator}`} className= "link">{post.creator}</NavLink></p>
             {post.createdAt !== post.updatedAt ?
             <p className="box-text">Updated {moment(post.updatedAt).fromNow()}</p>
             : null}

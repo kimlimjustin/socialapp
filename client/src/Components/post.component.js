@@ -22,7 +22,8 @@ const Post = (params) => {
         .then(res => {
             const token = cookie.load('token');
             (res.data).forEach((i) => {
-                if(i.token === token)if(postInfo)if(i._id === postInfo.user){setIsOwner(true); setUsername(i.username.toLowerCase())};
+                if(i.token === token)if(postInfo)if(i._id === postInfo.user)setIsOwner(true);
+                if(postInfo) if(i._id === postInfo.user)  setUsername(i.username.toLowerCase());
             })
         })
     }, [postInfo])

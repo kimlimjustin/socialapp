@@ -17,7 +17,7 @@ import Post from "./Components/post.component";
 import EditPost from "./Components/edit-post.component";
 
 const App = () => (
-    <Router>
+    <Router forceRefresh>
         <Navbar />
         <Switch>
             <Route exact path="/" component={Home} />
