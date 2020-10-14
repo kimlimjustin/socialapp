@@ -68,7 +68,8 @@ const Profile = (props) => {
                         const token = cookie.load('token');
                         if(i.profile_picture) setProfilePicture("http://localhost:5000/"+i.profile_picture.filename);
                         if(i.token === token) SetIsOwner(true);
-                        document.title = i.name;
+                        if(i.name) document.title = i.name;
+                        else document.title = i.username
                         setID(i._id);
                         setInfo(i);
                         Axios.get("http://localhost:5000/follow/get", {params: {user: i._id}})

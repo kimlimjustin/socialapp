@@ -1,11 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
 body{cursor: pointer;}
+
 .form-error{
     font-family: "Permanent Marker";
     color: red;
 }
 .profile{
     border-bottom: 1px solid #d0cfcf;
+}
+
+.home{
+    min-height: 100vh;
 }
 
 .activity-info{
