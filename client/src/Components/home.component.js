@@ -3,6 +3,8 @@ import cookie from 'react-cookies';
 import Axios from "axios";
 import {NavLink} from "react-router-dom";
 import moment from "moment";
+import LikeIcon from "../Icons/like.png";
+import HeartIcon from "../Icons/heart.png";
 
 const token = cookie.load('token');
 async function check_token(){
@@ -23,6 +25,8 @@ const Home = () => {
     const [userInfo, setUserInfo] = useState('');
     const [posts, setPosts] = useState([]);
     const [skip, setSkip] = useState(0);
+    const [likeInfo, setLikeInfo] = useState({});
+    const [totalLikes, setTotalLikes] = useState({});
 
     useEffect(() => {
         check_token().then(result => {
@@ -43,8 +47,8 @@ const Home = () => {
                             .then(users => {
                                 (users.data).forEach((user) => {
                                     if(user._id === post.user){
-                                        post.creator = user.username
-                                        setPosts(posts => [...posts, post])
+                                        post.creator = user.username;
+                                        setPosts(posts => [...posts, post])  
                                     }
                                 })
                             })
@@ -63,10 +67,67 @@ const Home = () => {
         }
         window.addEventListener('scroll', handleScroll, {passive: true})
     }, [skip, posts])
+
+    useEffect(() => {
+        posts.forEach((post) => {
+            Axios.get(`http://localhost:5000/likes/get/${post._id}/all`)
+            .then(res => {
+                setTotalLikes(n => ({...n, [post._id]: res.data.length}));
+                (res.data).forEach((like) => {
+                    if(like.liker === userInfo._id){
+                        setLikeInfo(likes => ({
+                            ...likes,
+                            [post._id]: like._id
+                        }))
+                    }
+                })
+            })
+        })
+    }, [posts, userInfo])
+
+    const LikePost = (id) => {
+        if(!likeInfo[id]){
+            if(userInfo){
+                Axios.post('http://localhost:5000/likes/add', {liker: userInfo._id, post: id})
+                .then(res => {
+                    setLikeInfo(likes => ({
+                        ...likes,
+                        [id]: res.data.id
+                    }))
+                    setTotalLikes(n => ({
+                        ...n,
+                        [id]: n[id] + 1
+                    }))
+                })
+            }
+        }
+    }
+
+    const UnlikePost = (id) => {
+        if(likeInfo[id]){
+            Axios.delete(`http://localhost:5000/likes/remove/${likeInfo[id]}`)
+            .then(() => {
+                setLikeInfo(likes => ({
+                    ...likes,
+                    [id]: null
+                }))
+                setTotalLikes(n => ({
+                    ...n,
+                    [id]: n[id] - 1
+                }))
+            })
+        }
+    }
     
     const GeneratePost = ({post}) => {
         return <div key={post._id} className="box box-shadow margin-top-bottom">
             <NavLink to={`/post/${post._id}`}><img src = {`http://localhost:5000/${post.image.filename}`} alt = {post.description} className="box-image" /></NavLink>
+            <div className="post-section">
+                {!likeInfo[post._id]
+                ?<span className="to-like-icon" onClick = {() => {LikePost(post._id)}}><img src={LikeIcon} alt="Like Icon" /></span>
+                :<span className="to-like-icon" onClick = {() => {UnlikePost(post._id)}}><img src={HeartIcon} alt="Unlike Icon" /></span>}
+                <p className="box-text">{totalLikes[post._id]} {totalLikes[post._id] <= 1? <span>Like</span>:<span>Likes</span>}</p>
+            </div>
             <div className = "post-section">
                 <p className = "box-text">{post.description}</p>
             </div>

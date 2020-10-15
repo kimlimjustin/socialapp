@@ -25,6 +25,7 @@ const Post = (params) => {
     const [username, setUsername] = useState('');
     const [userInfo, setUserInfo] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
+    const [totalLike, setTotalLike] = useState(0);
 
     useEffect(()=> {
         Axios.get(`http://localhost:5000/posts/${params.match.params.id}`)
@@ -59,6 +60,7 @@ const Post = (params) => {
                 (res.data).forEach((like) => {
                     if(like.liker === userInfo._id) setIsLiked(like._id);
                 })
+                setTotalLike(res.data.length)
             })
         }
     }, [userInfo, postInfo])
@@ -73,12 +75,12 @@ const Post = (params) => {
     }
 
     const LikePost = () => {
-        console.log("like");
         if(isLiked === false){
             if(postInfo && userInfo){
                 Axios.post('http://localhost:5000/likes/add', {liker: userInfo._id, post: postInfo._id})
                 .then(res => {
                     setIsLiked(res.data.id);
+                    setTotalLike(like => like + 1);
                 })
                 .catch(err => console.log(err));
             }
@@ -86,11 +88,11 @@ const Post = (params) => {
     }
 
     const UnlikePost = () => {
-        console.log("unlike");
         if(isLiked !== false){
             Axios.delete(`http://localhost:5000/likes/remove/${isLiked}`)
             .then(() => {
                 setIsLiked(false);
+                setTotalLike(like => like - 1);
             })
             .catch(err => console.log(err));
         }
@@ -106,6 +108,7 @@ const Post = (params) => {
                     {isLiked === false
                     ?<span className="to-like-icon" onClick = {() => {LikePost()}}><img src={LikeIcon} alt="Like Icon" /></span>
                     :<span className="to-like-icon" onClick = {() => {UnlikePost()}}><img src={HeartIcon} alt="Unlike Icon" /></span>}
+                    <p className="box-text">{totalLike} {totalLike <= 1? <span>Like</span>: <span>Likes</span>}</p>
                 </div>
                 :null}
                 <div className="post-section">
