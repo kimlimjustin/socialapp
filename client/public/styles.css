@@ -103,6 +103,12 @@ body{cursor: pointer;}
 .box-text{
     white-space: pre-wrap;
 }
+.to-like-icon{
+    width: 30px;
+}
+.to-like-icon img{
+    width: inherit;
+}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;

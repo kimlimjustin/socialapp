@@ -3,11 +3,28 @@ import React, { useEffect, useState } from "react";
 import {NavLink} from "react-router-dom";
 import cookie from "react-cookies";
 import moment from "moment";
+import LikeIcon from "../Icons/like.png";
+import HeartIcon from "../Icons/heart.png";
+
+const token = cookie.load('token');
+const check_logged_in = async () => {
+    let is_logged_in = false
+    if(token === null) is_logged_in = false;
+    await Axios.get("http://localhost:5000/users")
+    .then(res => {
+        (res.data).forEach((i)=> {
+            if(i.token === token) is_logged_in = i
+        })
+    })
+    return is_logged_in
+}
 
 const Post = (params) => {
     const [postInfo, setPostInfo] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
     const [username, setUsername] = useState('');
+    const [userInfo, setUserInfo] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
     useEffect(()=> {
         Axios.get(`http://localhost:5000/posts/${params.match.params.id}`)
@@ -16,6 +33,13 @@ const Post = (params) => {
         })
     }, [params.match.params.id])
 
+    useEffect(() => {
+        check_logged_in().then(result => setUserInfo(result))
+    }, [])
+
+    useEffect(() => {
+        if(postInfo) document.title = `${postInfo.description} by @${username}`
+    }, [postInfo, username])
     
     useEffect(()=> {
         Axios.get("http://localhost:5000/users")
@@ -28,11 +52,46 @@ const Post = (params) => {
         })
     }, [postInfo])
 
+    useEffect(() => {
+        if(userInfo && postInfo){
+            Axios.get(`http://localhost:5000/likes/get/${postInfo._id}/all`)
+            .then(res => {
+                (res.data).forEach((like) => {
+                    if(like.liker === userInfo._id) setIsLiked(like._id);
+                })
+            })
+        }
+    }, [userInfo, postInfo])
+
     const DeletePost = () => {
         if(window.confirm("Are you sure?")){
             const token = cookie.load('token');
             Axios.post(`http://localhost:5000/posts/delete/${params.match.params.id}`, {token})
             .then(()=> window.location = `/u/${username}`)
+            .catch(err => console.log(err));
+        }
+    }
+
+    const LikePost = () => {
+        console.log("like");
+        if(isLiked === false){
+            if(postInfo && userInfo){
+                Axios.post('http://localhost:5000/likes/add', {liker: userInfo._id, post: postInfo._id})
+                .then(res => {
+                    setIsLiked(res.data.id);
+                })
+                .catch(err => console.log(err));
+            }
+        }
+    }
+
+    const UnlikePost = () => {
+        console.log("unlike");
+        if(isLiked !== false){
+            Axios.delete(`http://localhost:5000/likes/remove/${isLiked}`)
+            .then(() => {
+                setIsLiked(false);
+            })
             .catch(err => console.log(err));
         }
     }
@@ -42,6 +101,13 @@ const Post = (params) => {
             ?
             <div className="margin box box-shadow">
                 <img src = {`http://localhost:5000/${postInfo.image.filename}`} className="box-image" alt={postInfo.description} />
+                {userInfo !== false && userInfo !== null
+                ?<div className="post-section">
+                    {isLiked === false
+                    ?<span className="to-like-icon" onClick = {() => {LikePost()}}><img src={LikeIcon} alt="Like Icon" /></span>
+                    :<span className="to-like-icon" onClick = {() => {UnlikePost()}}><img src={HeartIcon} alt="Unlike Icon" /></span>}
+                </div>
+                :null}
                 <div className="post-section">
                     <p className="box-text">{postInfo.description}</p>
                 </div>
