@@ -5,6 +5,7 @@ import {NavLink} from "react-router-dom";
 import moment from "moment";
 import LikeIcon from "../Icons/like.png";
 import HeartIcon from "../Icons/heart.png";
+import CommentIcon from "../Icons/comment.png";
 
 const token = cookie.load('token');
 async function check_token(){
@@ -126,6 +127,7 @@ const Home = () => {
                 {!likeInfo[post._id]
                 ?<span className="to-like-icon" onClick = {() => {LikePost(post._id)}}><img src={LikeIcon} alt="Like Icon" /></span>
                 :<span className="to-like-icon" onClick = {() => {UnlikePost(post._id)}}><img src={HeartIcon} alt="Unlike Icon" /></span>}
+                <NavLink to={`/post/${post._id}/#comment`}><span className="share-icon"><img src={CommentIcon} alt="Comment Icon" /></span></NavLink>
                 <p className="box-text">{totalLikes[post._id]} {totalLikes[post._id] <= 1? <span>Like</span>:<span>Likes</span>}</p>
             </div>
             <div className = "post-section">
@@ -153,9 +155,12 @@ const Home = () => {
 
     return(
         <div className="container home">
-            {posts.map((post)=> {
+            {posts.length !== 0?(
+            [posts.map((post)=> {
                 return <GeneratePost post = {post} key={post._id} />
-            })}        
+            })]
+            )
+            : <h1>Loading...</h1>}
         </div>
     )
 }

@@ -14,6 +14,7 @@ const userRouter = require('./Routers/userRouter');
 const followRouter = require('./Routers/followRouter');
 const postRouter = require("./Routers/postRouter");
 const likeRouter = require('./Routers/likeRouter');
+const commentRouter = require('./Routers/commentRouter');
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", 'http://localhost:3000')
@@ -28,6 +29,7 @@ app.use('/users', userRouter);
 app.use('/follow', followRouter);
 app.use("/posts", postRouter);
 app.use("/likes", likeRouter);
+app.use("/comments", commentRouter);
 
 app.use(function (req, res, next) {
 	res.status(404).sendFile(__dirname + "/error/404.html")

@@ -103,10 +103,10 @@ body{cursor: pointer;}
 .box-text{
     white-space: pre-wrap;
 }
-.to-like-icon{
+.to-like-icon, .share-icon{
     width: 30px;
 }
-.to-like-icon img{
+.to-like-icon img, .share-icon img{
     width: inherit;
 }
 @media only screen and (max-width: 300px){
