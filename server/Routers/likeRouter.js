@@ -23,10 +23,17 @@ router.post('/add/', jsonParser, (req, res) => {
                 if(err) res.status(400).json("Error: "+err);
                 else if(!post) res.status(403).json("User not found")
                 else{
-                    const newLike = new Like({liker: req.body.liker, likeTo : req.body.post })
-                    newLike.save()
-                    .then(() => res.json({message:"Like created.", "id": newLike._id}))
-                    .catch(err => res.status(400).json("Error: "+err))
+                    Like.findOne({liker: req.body.liker, likeTo: req.body.post}, (err, like) => {
+                        if(!like){
+                            const newLike = new Like({liker: req.body.liker, likeTo : req.body.post })
+                            newLike.save()
+                            .then(() => res.json({message:"Like created.", "id": newLike._id}))
+                            .catch(err => res.status(400).json("Error: "+err))
+                        }
+                        else{
+                            res.status(500).json("Already liked.")
+                        }
+                    })
                 }
             })
         }
