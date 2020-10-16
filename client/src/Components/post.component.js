@@ -188,7 +188,8 @@ const Post = (params) => {
                     <h1 className="box-title">Comments</h1>
                     <div className="margin box box-shadow">
                         {comments.map((comment) => {
-                            return <p key={comment._id}><NavLink to={`/u/${commenterName[comment.commenter]}`} className="link">{commenterName[comment.commenter]}</NavLink> commented {comment.comment}</p>
+                            return <p key={comment._id} className="box-text"><NavLink to={`/u/${commenterName[comment.commenter]}`} className="link">{commenterName[comment.commenter]}</NavLink> 
+                            &nbsp;commented {comment.comment} {moment(comment.createdAt).fromNow()}</p>
                         })}
                     </div>
                     {userInfo?
