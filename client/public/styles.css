@@ -11,6 +11,11 @@ body{cursor: pointer;}
 
 .home{
     min-height: 100vh;
+    width: 100%;
+}
+
+.recommendation{
+    display: none;
 }
 
 .activity-info{
@@ -122,4 +127,16 @@ body{cursor: pointer;}
         margin: 0px;
         width: 30%;
     }
+}
+
+@media only screen and (min-width: 1200px){
+    .recommendation{
+        width: 30%;
+        float: left;
+        display: block;
+    }
+    .home{
+        width: 70%;
+        float: left;
+    }    
 }

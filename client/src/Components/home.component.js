@@ -28,6 +28,8 @@ const Home = () => {
     const [skip, setSkip] = useState(0);
     const [likeInfo, setLikeInfo] = useState({});
     const [totalLikes, setTotalLikes] = useState({});
+    const [newestUser, setNewestUser] = useState([]);
+    const [taggedList, setTaggedList] = useState([]);
 
     useEffect(() => {
         check_token().then(result => {
@@ -119,6 +121,35 @@ const Home = () => {
             })
         }
     }
+
+    useEffect(() => {
+        Axios.get('http://localhost:5000/users/get_newest')
+        .then(res => {
+            (res.data).forEach((user) => {
+                setNewestUser(existing => [...existing, user])
+            })
+        })
+        .catch(err => console.log(err));
+    }, [])
+
+    useEffect(() => {
+        if(userInfo){
+            Axios.get(`http://localhost:5000/posts/get/tagged/${userInfo.username}`)
+            .then(res => {
+                (res.data).forEach((tag) => {
+                    Axios.get("http://localhost:5000/users")
+                    .then(users => {
+                        (users.data).forEach((user) => {
+                            if(user._id === tag.user){
+                                tag.username = user.username;
+                                setTaggedList(ex => [...ex, tag]);
+                            }
+                        })
+                    })
+                })
+            })
+        }
+    }, [userInfo])
     
     const GeneratePost = ({post}) => {
         return <div key={post._id} className="box box-shadow margin-top-bottom">
@@ -154,13 +185,34 @@ const Home = () => {
     }
 
     return(
-        <div className="container home">
-            {posts.length !== 0?(
-            [posts.map((post)=> {
-                return <GeneratePost post = {post} key={post._id} />
-            })]
-            )
-            : <h1>Loading...</h1>}
+        <div className="container">
+            <div className="home">
+                {posts.length !== 0?(
+                [posts.map((post)=> {
+                    return <GeneratePost post = {post} key={post._id} />
+                })]
+                )
+                : <h1>Loading...</h1>}
+            </div>
+            <div className="recommendation">
+                <div className="margin box box-shadow">
+                    <h3 className="box-title">You might like these users:</h3>
+                    <ul>
+                        {newestUser.map((user) => {
+                            if (user.username !== userInfo.username){
+                            return <li key={user._id}><NavLink className="link" to={`/u/${user.username}`}>{user.username}</NavLink> (joined {moment(user.createdAt).fromNow()})</li>
+                            }else{return null;}
+                        })}
+                    </ul>
+                </div>
+                <div className="margin box box-shadow">
+                    <h3 className="box-title">Tags:</h3>
+                    {taggedList.map((tag) => {
+                        return <p key={tag._id}><NavLink className="link" to={`/u/${tag.username}`}>{tag.username}</NavLink> tagged you on a 
+                        &nbsp;<NavLink to={`/post/${tag._id}`} className="link">post</NavLink></p>
+                    })}
+                </div>
+            </div>
         </div>
     )
 }

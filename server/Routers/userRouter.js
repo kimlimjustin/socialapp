@@ -95,4 +95,12 @@ router.post('/profile', jsonParser, (req, res)=> {
     }).catch(err => res.status(400).json("Error: "+err));
 })
 
+router.get('/get_newest', (req, res) => {
+    User.find()
+    .sort({_id: -1})
+    .limit(3)
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json("Error: "+err));
+})
+
 module.exports = router;

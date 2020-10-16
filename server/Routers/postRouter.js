@@ -39,6 +39,22 @@ router.post("/create", jsonParser,(req, res)=> {
     })
 })
 
+router.get('/get/tagged/:user', (req, res) => {
+    let tagged_list = []
+    const user = req.params.user
+    Post.find()
+    .sort({_id: -1})
+    .then(posts => {
+        posts.forEach((post) => {
+            if(post.tags.includes(user)){
+                tagged_list.push(post)
+            }
+        })
+        res.json(tagged_list);
+    })
+    .catch(err => res.status(400).json("Error: "+err));
+})
+
 router.get("/get/:user", (req, res)=> {
     const skip = req.query.skip && /^\d+$/.test(req.query.skip) ? Number(req.query.skip) : 0
     Post.find({user: req.params.user}, undefined, {skip, limit: 1}).sort({_id: -1})
