@@ -17,6 +17,7 @@ import Post from "./Components/post.component";
 import EditPost from "./Components/edit-post.component";
 import Setting from "./Components/setting.component";
 import SearchUser from "./Components/searchUser.component";
+import Chats from "./Components/chats.component";
 
 const App = () => (
     <Router forceRefresh>
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/u/:username" component={Profile} />
             <Route path="/setting" component = {Setting} />
             <Route path="/search" component = {SearchUser} />
+            <Route path="/chats" component = {Chats} />
             <Route path="*" component = {FourZeroFour}/>
         </Switch>
     </Router>

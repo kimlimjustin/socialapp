@@ -8,6 +8,7 @@ import LoginIcon from "../Icons/Login.png";
 import PostIcon from "../Icons/post.jpg";
 import SettingIcon from "../Icons/setting.png";
 import SearchIcon from "../Icons/search.jpg";
+import ChatIcon from "../Icons/chat.png";
 
 const token = cookie.load('token');
 const logged_in = async () => {
@@ -62,6 +63,7 @@ const Navbar = () => {
                     <NavLink to="/post/create"><li className="nav-item"><img src={PostIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Create post</span></li></NavLink>
                     <NavLink to="/setting"><li className="nav-item"><img src={SettingIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Setting</span></li></NavLink>
                     <NavLink to="/search"><li className="nav-item"><img src={SearchIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Search User</span></li></NavLink>
+                    <NavLink to="/chats"><li className="nav-item"><img src={ChatIcon} alt="Chat icon" className="logo" /><span className="nav-item-description link">Message user</span></li></NavLink>
                 </ul>
             </div>
         </nav>

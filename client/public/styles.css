@@ -122,6 +122,46 @@ body{cursor: pointer;}
 .to-like-icon img, .share-icon img{
     width: inherit;
 }
+.chat-info{
+    border-bottom: 1px solid #cecdcd;
+    display: flex;
+}
+
+.sendMessage{
+    display: flex;
+}
+.chats{
+    height: 60vh;
+}
+
+.chat-to{
+    margin: 0 5%;
+    font-family: "Roboto Condensed";
+    display: flex;
+    flex: 0.8 1;
+}
+
+.input-message{
+    display: flex;
+    flex: 0.8 1;
+}
+
+.input-message input {padding: 10px;}
+
+.submit-message{
+    display: flex;
+    flex: 0.2 1;
+}
+
+.closeIcon{
+    display: flex;
+    flex: 0.2 1;
+    justify-content: flex-end;
+}
+
+.closeIconText{
+    margin: auto;
+}
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;
