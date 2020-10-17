@@ -10,6 +10,7 @@ const sharp = require('sharp');
 
 router.get('/', (req, res) => {
     User.find()
+    .sort({_id: -1})
     .then(users => res.json(users))
     .catch(err => res.status(400).json("Error" + err));
 })

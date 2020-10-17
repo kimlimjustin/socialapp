@@ -209,7 +209,7 @@ const Home = () => {
                     <h3 className="box-title">Tags:</h3>
                     {taggedList.map((tag) => {
                         return <p key={tag._id}><NavLink className="link" to={`/u/${tag.username}`}>{tag.username}</NavLink> tagged you on a 
-                        &nbsp;<NavLink to={`/post/${tag._id}`} className="link">post</NavLink></p>
+                        &nbsp;<NavLink to={`/post/${tag._id}`} className="link">post</NavLink> {moment(tag.createdAt).fromNow()}</p>
                     })}
                 </div>
             </div>
