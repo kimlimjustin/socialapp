@@ -103,4 +103,26 @@ router.get('/get_newest', (req, res) => {
     .catch(err => res.status(400).json("Error: "+err));
 })
 
+router.post('/change_pass', jsonParser,(req, res) => {
+    User.findOne({_id: req.body.user, token: req.body.token}, (err, user) => {
+        if(err) res.status(400).json("Error: "+err);
+        if(user){
+            user.comparePassword(req.body.oldPassword, (err, isMatch) => {
+                if(err) res.status(400).json("Error: "+err);
+                else if(isMatch){
+                    user.password = req.body.newPassword;
+                    user.save()
+                    .then(() => res.json("Password updated"))
+                }
+                else{
+                    res.status(402).json("Old Password Doesn't match")
+                }
+            })
+        }
+        else{
+            res.status(400).json("User not found")
+        }
+    })
+})
+
 module.exports = router;

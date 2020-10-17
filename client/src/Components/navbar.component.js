@@ -6,6 +6,7 @@ import axios from "axios";
 import LogoutIcon from "../Icons/Logout.jpg";
 import LoginIcon from "../Icons/Login.png";
 import PostIcon from "../Icons/post.jpg";
+import SettingIcon from "../Icons/setting.png";
 
 const token = cookie.load('token');
 const logged_in = async () => {
@@ -58,6 +59,7 @@ const Navbar = () => {
                     :<NavLink to ='/login'><li className="nav-item"><img src={LoginIcon} alt="Login Icon" className="logo" /><span className="nav-item-description link">Login</span></li></NavLink>
                     }
                     <NavLink to="/post/create"><li className="nav-item"><img src={PostIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Create post</span></li></NavLink>
+                    <NavLink to="/setting"><li className="nav-item"><img src={SettingIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Setting</span></li></NavLink>
                 </ul>
             </div>
         </nav>

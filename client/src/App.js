@@ -15,6 +15,7 @@ import EditProfile from "./Components/edit_profile.component";
 import CreatePost from "./Components/create-post.component";
 import Post from "./Components/post.component";
 import EditPost from "./Components/edit-post.component";
+import Setting from "./Components/setting.component";
 
 const App = () => (
     <Router forceRefresh>
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/post/:id/edit" component = {EditPost} />
             <Route path="/post/:id" component = {Post} />
             <Route path="/u/:username" component={Profile} />
+            <Route path="/setting" component = {Setting} />
             <Route path="*" component = {FourZeroFour}/>
         </Switch>
     </Router>

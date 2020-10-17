@@ -67,7 +67,7 @@ body{cursor: pointer;}
     float: left;
     padding: 20px;
 }
-.profile-pp img{width: 100%;}
+.profile-pp img{width: 100%; min-width: -webkit-fill-available;}
 
 .nav-effect{box-shadow: 0 2px 30px -2px rgba(0,0,0,.2);}
 
@@ -108,9 +108,11 @@ body{cursor: pointer;}
 .box-text{
     white-space: pre-wrap;
 }
-.to-like-icon, .share-icon{
+.to-like-icon, .share-icon, .setting-icon{
     width: 30px;
 }
+
+.setting-icon{padding: 0 5px;}
 .to-like-icon img, .share-icon img{
     width: inherit;
 }

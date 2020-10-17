@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import ProfilePicturePNG from "../Icons/profile.png"
+import ProfilePicturePNG from "../Icons/profile.png";
 import cookie from "react-cookies";
 import Linkify from "react-linkify";
 
@@ -121,7 +121,9 @@ const Profile = (props) => {
                         <NavLink to="/setting/profile-picture"><img src={ProfilePicture} alt="Profile" className="profile-picture-img" /></NavLink>
                     </div>
                     <div className="profile-info">
-                        <h2 className="profile-heading box-title">{username} {isOwner?<NavLink to="/setting/profile/"><button className="btn btn-dark">Edit Profile</button></NavLink>: null}</h2>
+                        <h2 className="profile-heading box-title">{username} {isOwner?
+                        <NavLink to="/setting/profile/"><button className="btn btn-dark">Edit Profile</button></NavLink>
+                        : null}</h2>
                     </div>
                     <div className="margin">
                         <h3>{userInfo.name}</h3>
