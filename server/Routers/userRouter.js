@@ -40,7 +40,11 @@ router.post('/login', jsonParser, (req, res)=> {
                     res.status(400).json("Error: "+err);
                 }
                 if(isMatch){
-                    res.json(user.token);
+                    const randomToken = require('random-token').create('@j1ijq&4u+t(a@8@7wv#)$fb!9ce#3+1azsi#6dc$0^d1g^svt');
+                    const token = randomToken(50);
+                    user.token = token;
+                    user.save()
+                    .then(() => res.json(token));
                 }
                 else{
                     res.status(400).json('Password not match');

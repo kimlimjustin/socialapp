@@ -109,7 +109,7 @@ const Chats = ({location}) => {
             {to && userInfo?
             <div className="container">
                 {(userList.length !== 0 && userList.indexOf(to) === -1) || userInfo.username === to?
-                    <h3 className="box-title text-dark">The user you are looking for is unavailable for some reasons. 
+                    <h3 className="box-title text-dark">The user you are looking for is unavailable for some reasons. &nbsp;
                     <NavLink to ="/" className="link">Back to home page</NavLink></h3>
                 :<div className="margin box box-shadow">
                     <div className="chat-info">
@@ -150,7 +150,7 @@ const Chats = ({location}) => {
                         {userList.map((user) => {
                             if(user !== userInfo.username){
                                 return <li key={user} className="user"><div className="box" 
-                                onClick={() =>  window.location = `${window.location.href}?qto=${user}`}>{user}</div></li>
+                                onClick={() =>  window.location = `${window.location.pathname}?qto=${user}`}>{user}</div></li>
                             }
                             else return null;
                         })}
