@@ -162,6 +162,25 @@ body{cursor: pointer;}
 .closeIconText{
     margin: auto;
 }
+.messages{
+    padding: 5% 0;
+    flex: auto;
+}
+.sentText{
+    justify-content: flex-end;
+    text-align: right;
+    margin: 20px 0;
+}
+
+.message{
+    
+}
+
+.receivedText{
+    justify-content: flex-start;
+    margin: 20px 0;
+}
+
 @media only screen and (max-width: 300px){
     .profile-box{
         width: 100px !important;

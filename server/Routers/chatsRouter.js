@@ -20,9 +20,5 @@ const sendMessage = ({message, from, to}) => {
     })
 }
 
-const getMessage = ({from, to}) => {
-    Chat.find({from, to})
-    .then(chats => {return chats});
-}
 
-module.exports = {sendMessage, getMessage};
+module.exports = {sendMessage, Chat};

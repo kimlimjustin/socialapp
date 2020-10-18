@@ -19,7 +19,7 @@ const followRouter = require('./Routers/followRouter');
 const postRouter = require("./Routers/postRouter");
 const likeRouter = require('./Routers/likeRouter');
 const commentRouter = require('./Routers/commentRouter');
-const {sendMessage, getMessage} = require('./Routers/chatsRouter');
+const {sendMessage, Chat} = require('./Routers/chatsRouter');
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", 'http://localhost:3000')
@@ -38,6 +38,20 @@ app.use("/comments", commentRouter);
 
 io.on('connection', socket => {
 	console.log("a user connected.");
+
+	socket.on('getInfo', ({from, to}) => {
+		let messages = [];
+		Chat.find({from, to})
+		.then(chats => {
+			chats.forEach((chat) => messages.push(chat))
+			Chat.find({from: to, to: from})
+			.then(chats => {
+				chats.forEach((chat) => messages.push(chat))
+				messages = messages.sort((a, b) => (a._id > a._id) ? 1: ((b._id > a._id)?-1: 0))
+				socket.emit("ChatInfo", messages);
+			})
+		})
+	})
 	
 	socket.on('sendMessage', ({message, from, to}, callback) => {
 		sendMessage({message, from, to})

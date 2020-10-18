@@ -4,6 +4,7 @@ import queryString from "query-string";
 import Axios from "axios";
 import { NavLink } from "react-router-dom";
 import cookie from "react-cookies";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 let socket;
 
@@ -69,8 +70,13 @@ const Chats = ({location}) => {
     }, [userInfo])
 
     useEffect(() => {
-        console.log(messages)
-    }, [messages])
+        if(userInfo && receiverId){
+            socket.emit("getInfo", {from: receiverId, to: userInfo._id});
+            socket.on("ChatInfo", (result) => {
+                setMessages(result);
+            })
+        }
+    }, [userInfo, receiverId])
 
     const FilterUser = (e) => {
         var  filter, ul, li, div,  txtValue;
@@ -111,9 +117,15 @@ const Chats = ({location}) => {
                         <div className="closeIcon" onClick={() => window.location = "/chats"}><span className="closeIconText">X</span></div>
                     </div>
                     <div className="chats">
+                        <ScrollToBottom className="messages">
                         {messages.map(message=> {
-                            return <p key={message._id || message.chat}>{message.chat}</p>
+                            if(message.from === userInfo._id){
+                                return <div key={message._id || message.chat} className="sentText"><p className="message">{message.chat}</p></div>
+                            }else{
+                                return <div key={message._id || message.chat} className="receivedText"><p className="message">{message.chat}</p></div>
+                            }
                         })}
+                        </ScrollToBottom>
                     </div>
                     <form className="sendMessage" onSubmit={sendMessage}>
                         <div className="input-message">
