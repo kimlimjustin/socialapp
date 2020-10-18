@@ -132,6 +132,8 @@ body{cursor: pointer;}
 }
 .chats{
     height: 60vh;
+    overflow-y: auto;
+    padding: 0 10px;
 }
 
 .chat-to{
@@ -172,9 +174,6 @@ body{cursor: pointer;}
     margin: 20px 0;
 }
 
-.message{
-    
-}
 
 .receivedText{
     justify-content: flex-start;
