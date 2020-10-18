@@ -19,7 +19,8 @@ const followRouter = require('./Routers/followRouter');
 const postRouter = require("./Routers/postRouter");
 const likeRouter = require('./Routers/likeRouter');
 const commentRouter = require('./Routers/commentRouter');
-const {sendMessage, Chat} = require('./Routers/chatsRouter');
+const chatInfoRouter = require('./Routers/Chat/chatInfoRouter');
+const {sendMessage, Chat} = require('./Routers/Chat/chatsRouter');
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", 'http://localhost:3000')
@@ -35,6 +36,7 @@ app.use('/follow', followRouter);
 app.use("/posts", postRouter);
 app.use("/likes", likeRouter);
 app.use("/comments", commentRouter);
+app.use('/chats', chatInfoRouter);
 
 io.on('connection', socket => {
 	console.log("a user connected.");

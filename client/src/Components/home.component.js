@@ -30,6 +30,7 @@ const Home = () => {
     const [totalLikes, setTotalLikes] = useState({});
     const [newestUser, setNewestUser] = useState([]);
     const [taggedList, setTaggedList] = useState([]);
+    const [chatList, setChatList] = useState([]);
 
     useEffect(() => {
         check_token().then(result => {
@@ -150,6 +151,22 @@ const Home = () => {
             })
         }
     }, [userInfo])
+
+    useEffect(() => {
+        if(userInfo){
+            Axios.get(`http://localhost:5000/chats/info/${userInfo._id}`)
+            .then(res => {
+                res.data.forEach((chat) => {
+                    Axios.get("http://localhost:5000/users")
+                    .then(users => {
+                        users.data.forEach((user) => {
+                            if(user._id === chat.from){chat.username = user.username; setChatList(chats => [...chats, chat]);}
+                        })
+                    })
+                })
+            });
+        }
+    }, [userInfo])
     
     const GeneratePost = ({post}) => {
         return <div key={post._id} className="box box-shadow margin-top-bottom">
@@ -210,6 +227,12 @@ const Home = () => {
                     {taggedList.map((tag) => {
                         return <p key={tag._id}><NavLink className="link" to={`/u/${tag.username}`}>{tag.username}</NavLink> tagged you on a 
                         &nbsp;<NavLink to={`/post/${tag._id}`} className="link">post</NavLink> {moment(tag.createdAt).fromNow()}</p>
+                    })}
+                </div>
+                <div className="margin box box-shadow">
+                    <h3 className="box-title">Messages:</h3>
+                    {chatList.map((chat) => {
+                        return <p key={chat.id}><NavLink to={`/chats?qto=${chat.username}`} className="link">{chat.username}</NavLink> Messaged you {moment(chat.at).fromNow()}.</p>
                     })}
                 </div>
             </div>

@@ -1,5 +1,5 @@
-const User = require('../models/User.model');
-const Chat = require('../models/Chat.model');
+const User = require('../../models/User.model');
+const Chat = require('../../models/Chat.model');
 
 const sendMessage = ({message, from, to}) => {
     User.findOne({_id:from}, (err, user) => {
