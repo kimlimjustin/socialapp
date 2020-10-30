@@ -6,7 +6,7 @@ How to run:
  
 - Inside `server` folder, create a new file called `.env` which stores your ATLAS_URI information
 
-- first install all dependencies.
+- install all dependencies.
   - Client side:
     on the `client` directory type `npm install`
   - Server side:
