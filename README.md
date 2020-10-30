@@ -3,6 +3,8 @@
 How to run:
 - Clone this repository or fork it.
   `git clone https://github.com/kimlimjustin/socialapp.git` or `git clone https://github.com/<your username>/socialapp.git`
+ 
+- Inside `server` folder, create a new file called `.env` which stores your ATLAS_URI information
 
 - first install all dependencies.
   - Client side:
