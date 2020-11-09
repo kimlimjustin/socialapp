@@ -2,7 +2,7 @@
 
 #### Warning: although this project has some basics security such as hashed user password and others, this project is NOT secure enough in production. (Contribute to this project by making a pull request will be appreciated)
 
-[![Socialapp demo](https://i.ibb.co/25wKz3r/Screenshot-41.png)](https://ibb.co/6N2sK0S)
+![Socialapp demo](https://drive.google.com/uc?export=view&id=1FHvzmU4P6MFYquD2zoevnJbvR3v0l4Bv)
 
 How to run:
 - Clone this repository or fork it.
