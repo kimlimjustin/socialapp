@@ -10,16 +10,17 @@ import SettingIcon from "../Icons/setting.png";
 import SearchIcon from "../Icons/search.jpg";
 import ChatIcon from "../Icons/chat.png";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 const token = cookie.load('token');
 const logged_in = async () => {
     let is_logged_in = false
-    if(token === null) is_logged_in = false;
-    await axios.get("http://localhost:5000/users")
-    .then(res => {
-        (res.data).forEach((i)=> {
-            if(i.token === token) is_logged_in = i
+    if (token === null) is_logged_in = false;
+    await axios.get(`${BACKEND_URL}/users`)
+        .then(res => {
+            (res.data).forEach((i) => {
+                if (i.token === token) is_logged_in = i
+            })
         })
-    })
     return is_logged_in
 }
 const Navbar = () => {
@@ -27,38 +28,38 @@ const Navbar = () => {
     const [username, setUsername] = useState('');
     const [isLoggedIn, setLoggedIn] = useState(false);
 
-    useEffect(()=> {
+    useEffect(() => {
         const token = cookie.load('token');
-        axios.get('http://localhost:5000/users')
-        .then(res => {
-            (res.data).forEach(i => {
-                if(i.token === token){
-                    setUsername(i.username);
-                    if(i.profile_picture) setPP("http://localhost:5000/" + i.profile_picture.filename)
-                } 
+        axios.get(`${BACKEND_URL}/users`)
+            .then(res => {
+                (res.data).forEach(i => {
+                    if (i.token === token) {
+                        setUsername(i.username);
+                        if (i.profile_picture) setPP(BACKEND_URL + '/' + i.profile_picture.filename)
+                    }
+                })
             })
-        })
     })
     useEffect(() => {
         logged_in().then(result => setLoggedIn(result))
     })
     const Logout = () => {
-        cookie.save('token', '', {path: '/'});
+        cookie.save('token', '', { path: '/' });
         window.location = "/login";
     }
-    return(
+    return (
         <nav className="navbar nav-effect bg-white text-dark">
             <div className="container">
-                <Link to= "/"  className="nav-logo">SocialApp</Link>
-                <span id="nav-icon" className="nav-icon" data-target ="nav-list">&#x2630;</span>
+                <Link to="/" className="nav-logo">SocialApp</Link>
+                <span id="nav-icon" className="nav-icon" data-target="nav-list">&#x2630;</span>
                 <ul className="nav-list" id="nav-list">
-                    {PP === null 
-                    ?<NavLink to={`/u/${username}`} className="link"><li className="nav-item"><img src={profileLogo} alt="Profile Icon"  className="logo" /><span className="nav-item-description">Profile</span></li></NavLink>
-                    :<NavLink to={`/u/${username}`} className="link"><li className="nav-item"><img src={PP} alt="Profile Icon"  className="logo" /><span className="nav-item-description">Profile</span></li></NavLink>
+                    {PP === null
+                        ? <NavLink to={`/u/${username}`} className="link"><li className="nav-item"><img src={profileLogo} alt="Profile Icon" className="logo" /><span className="nav-item-description">Profile</span></li></NavLink>
+                        : <NavLink to={`/u/${username}`} className="link"><li className="nav-item"><img src={PP} alt="Profile Icon" className="logo" /><span className="nav-item-description">Profile</span></li></NavLink>
                     }
                     {isLoggedIn
-                    ?<li className="nav-item" onClick={Logout}><img src={LogoutIcon} alt="Logout Icon" className="logo" /><span className="nav-item-description link">Logout</span></li>
-                    :<NavLink to ='/login'><li className="nav-item"><img src={LoginIcon} alt="Login Icon" className="logo" /><span className="nav-item-description link">Login</span></li></NavLink>
+                        ? <li className="nav-item" onClick={Logout}><img src={LogoutIcon} alt="Logout Icon" className="logo" /><span className="nav-item-description link">Logout</span></li>
+                        : <NavLink to='/login'><li className="nav-item"><img src={LoginIcon} alt="Login Icon" className="logo" /><span className="nav-item-description link">Login</span></li></NavLink>
                     }
                     <NavLink to="/post/create"><li className="nav-item"><img src={PostIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Create post</span></li></NavLink>
                     <NavLink to="/setting"><li className="nav-item"><img src={SettingIcon} alt="Create post icon" className="logo" /><span className="nav-item-description link">Setting</span></li></NavLink>
