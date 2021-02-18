@@ -1,8 +1,9 @@
 import React from 'react';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import "hurl-ui/HurlUI.css";
-import "hurl-ui/HurlUI";
+import "@fire-ui/fire-ui/FireUI.css"
+import "@fire-ui/fire-ui/FireUI"
+import "./Components/HurlUI"
 
 import Register from "./Components/register.component";
 import Login from "./Components/login.component";

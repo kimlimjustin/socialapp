@@ -58,7 +58,7 @@ const PP = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container my-5">
             <div className="margin box box-shadow bg-dark text-light">
                 <h1 className="box-title">Your Profile Picture:</h1>
                 <h3>{info}</h3>
