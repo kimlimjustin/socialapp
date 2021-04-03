@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fire-ui/fire-ui": "^0.2.3",
+    "@fire-ui/fire-ui": "^0.2.6",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
